@@ -8,14 +8,7 @@ Keyboard shortcuts for changing text display size in Outlook for Mac, with suppo
 | `Ctrl+Alt+Cmd+K` | Decrease text size |
 | `Ctrl+Alt+Cmd+T` | Toggle between increase and decrease |
 
-## What this repo does
-
-This repo combines the useful parts of two older projects into one maintained codebase:
-
-- `99_archived_outlook-for-mac-fontsize-shortcuts`
-- `99_archived_outlook-legacy-fontsize-shortcuts`
-
-It keeps one runtime module, one install path, one config file, and one test surface.
+Use it to avoid digging through Outlook settings every time you want larger or smaller interface text.
 
 ## Supported Outlook modes
 
@@ -23,7 +16,7 @@ It keeps one runtime module, one install path, one config file, and one test sur
 - `new`: forces the `Outlook -> Settings...` path
 - `legacy`: forces the `Outlook -> Preferences...` path
 
-Mode details: [docs/modes.md](docs/modes.md)
+More on the behavior of each mode: [docs/modes.md](docs/modes.md)
 
 ## Prerequisites
 
@@ -52,6 +45,16 @@ If you already have `~/.hammerspoon/init.lua`, merge this repo's `init.lua` chan
 
 Reload Hammerspoon with `Ctrl+Alt+Cmd+R` or from its menubar icon.
 
+## Usage
+
+Default shortcuts:
+
+- `Ctrl+Alt+Cmd+G`: increase text size
+- `Ctrl+Alt+Cmd+K`: decrease text size
+- `Ctrl+Alt+Cmd+T`: toggle between increase and decrease
+
+You can also use the Hammerspoon menubar item for mouse-driven control.
+
 ## Configuration
 
 Edit `~/.hammerspoon/outlook-font.json` if you want to override defaults.
@@ -74,7 +77,7 @@ Edit `~/.hammerspoon/outlook-font.json` if you want to override defaults.
 }
 ```
 
-Legacy migration notes: [docs/migration-from-legacy.md](docs/migration-from-legacy.md)
+If you are moving from an older legacy-only setup, see [docs/migration-from-legacy.md](docs/migration-from-legacy.md).
 
 ## Troubleshooting
 
@@ -102,7 +105,3 @@ Individual commands:
 ## Security
 
 See [SECURITY.md](SECURITY.md).
-
-## Merge Notes
-
-The source comparison for this combined repo is tracked in [docs/parity-ledger.md](docs/parity-ledger.md).

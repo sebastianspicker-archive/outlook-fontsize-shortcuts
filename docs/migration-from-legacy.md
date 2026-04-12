@@ -1,6 +1,6 @@
-# Migration From `outlook-legacy-fontsize-shortcuts`
+# Migration From Older Legacy-Only Setups
 
-If you used the legacy-only repo before, move to this repo as follows.
+If you previously used a legacy-only version of this tool, move to this repo as follows.
 
 ## Files
 
@@ -9,7 +9,7 @@ Old setup:
 - `init.lua`
 - `outlook_legacy_fontsize.lua`
 
-New setup:
+Current setup:
 
 - `init.lua`
 - `outlook-font.lua`
@@ -25,7 +25,7 @@ Legacy-only config:
 - `timeout_seconds`
 - `hotkeys.*.position`
 
-Combined repo config:
+Current config:
 
 - `mode = "legacy"` if you want to force Legacy Outlook
 - `delays.timeout`, `delays.waitInterval`, `delays.activate`
@@ -34,7 +34,7 @@ Combined repo config:
 
 ## What changed
 
-- You no longer need `right_arrow_count`. The combined runtime finds the legacy slider directly through Accessibility APIs instead of navigating tabs with arrow keys.
+- You no longer need `right_arrow_count`. The current runtime finds the legacy slider directly through Accessibility APIs instead of navigating tabs with arrow keys.
 - You no longer set slider positions directly. `increase` and `decrease` move one step at a time.
 - You can keep `mode = "auto"` if you switch between New Outlook and Legacy Outlook.
 

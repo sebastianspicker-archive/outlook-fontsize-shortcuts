@@ -31,7 +31,7 @@ Use this when you want to skip autodetection or when Outlook exposes only the le
 
 ## Why there is no second legacy runtime
 
-The old `outlook_legacy_fontsize.lua` implementation relied on keypress navigation and `right_arrow_count` tuning. The combined repo keeps a single AX-driven runtime instead:
+The old `outlook_legacy_fontsize.lua` implementation relied on keypress navigation and `right_arrow_count` tuning. This project keeps a single AX-driven runtime instead:
 
 - less duplicated code
 - one install path
