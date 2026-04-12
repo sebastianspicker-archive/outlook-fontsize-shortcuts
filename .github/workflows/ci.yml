@@ -48,7 +48,7 @@ jobs:
             ${{ runner.os }}-luarocks-
 
       - name: Format check (StyLua)
-        uses: JohnnyMorganz/stylua-action@v4
+        uses: JohnnyMorganz/stylua-action@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: "2.3.1"
