@@ -1,0 +1,75 @@
+{
+  // Mode selection:
+  // "auto"   = try New Outlook first, then Legacy Outlook
+  // "new"    = force New Outlook only
+  // "legacy" = force Legacy Outlook only
+  "mode": "auto",
+
+  // List of application names to detect Outlook
+  // Hammerspoon will try each in order to find the running app
+  "appNames": [
+    "Outlook",
+    "Microsoft Outlook"
+  ],
+
+  // Menu path to open the "Settings" window in New Outlook
+  // This is the menu chain: Outlook → Settings…
+  "settingsMenu": [
+    "Outlook",
+    "Settings…"
+  ],
+
+  // Menu path to open the "Preferences" window in Legacy Outlook
+  // This is the menu chain: Outlook → Preferences…
+  "preferencesMenu": [
+    "Outlook",
+    "Preferences…"
+  ],
+
+  // Possible titles of the "Personal Settings" header tile
+  // Supports multiple languages: English, German, French, Spanish
+  "headerLabels": [
+    "Personal Settings",
+    "Persönliche Einstellungen",
+    "Paramètres personnels",
+    "Configuración personal"
+  ],
+
+  // Label texts for the "Text display size" section
+  // Supports multiple languages for matching the UI text
+  "labelTexts": [
+    "Text display size",
+    "Größe der Textanzeige",
+    "Taille d'affichage du texte",
+    "Tamaño de visualización de texto"
+  ],
+
+  // Timing configuration for UI automation
+  "delays": {
+    // Seconds to wait after bringing Outlook to front
+    "activate": 0.1,
+    // Polling interval (seconds) when waiting for windows or labels
+    "waitInterval": 0.05,
+    // Maximum seconds to wait before giving up
+    "timeout": 3
+  },
+
+  // Retry logic if the UI action fails
+  "retry": {
+    // How many times to retry the whole sequence
+    "attempts": 2,
+    // Seconds to pause between retries
+    "interval": 0.2
+  },
+
+  // Overlay: seconds before auto-dismiss; set "showOverlay" to false to use notifications only
+  "overlayDuration": 1.2,
+  "showOverlay": true,
+
+  // Hotkeys (mods: array of "ctrl", "alt", "cmd", "shift"; key: single character)
+  "hotkeys": {
+    "increase": { "mods": ["ctrl", "alt", "cmd"], "key": "g" },
+    "decrease": { "mods": ["ctrl", "alt", "cmd"], "key": "k" },
+    "toggle": { "mods": ["ctrl", "alt", "cmd"], "key": "t" }
+  }
+}

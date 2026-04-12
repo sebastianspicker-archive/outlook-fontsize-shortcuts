@@ -1,0 +1,38 @@
+# Lua / LuaRocks
+.luarocks/
+lua_modules/
+*.rock
+*.src.rock
+
+# Tests / coverage
+coverage/
+luacov.*
+test-results/
+junit.xml
+reports/
+semgrep.sarif
+gitleaks-report.json
+
+# Tooling caches
+.luacheckcache
+.cache/
+.tmp/
+*.tmp
+*.log
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+.cursor/
+*.swp
+*~
+
+# Local process docs (optional, not tracked)
+DECISIONS.md
+FINDINGS.md
+LOG.md
+REFACTOR_PLAN.md
+PHYSICS_AUDIT.md
+validation.md

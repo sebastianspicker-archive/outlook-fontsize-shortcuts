@@ -1,0 +1,89 @@
+name: CI
+
+on:
+  push:
+    branches: [dev]
+  pull_request:
+    branches: [dev]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  lua:
+    name: Lua quality + tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    env:
+      LUAROCKS_TREE: ./.luarocks
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Lua
+        uses: leafo/gh-actions-lua@v10
+        with:
+          luaVersion: "5.4.6"
+
+      - name: Set up LuaRocks
+        uses: leafo/gh-actions-luarocks@v6
+        with:
+          luaRocksVersion: "3.12.2"
+
+      - name: Cache LuaRocks
+        uses: actions/cache@v4
+        with:
+          path: |
+            ./.luarocks
+            ~/.cache/luarocks
+          key: ${{ runner.os }}-luarocks-${{ hashFiles('Makefile', '.luacheckrc', '.stylua.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-luarocks-
+
+      - name: Format check (StyLua)
+        uses: JohnnyMorganz/stylua-action@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          version: "2.3.1"
+          args: --check .
+
+      - name: Install tools
+        run: |
+          set -euo pipefail
+          make tools
+
+      - name: Lint
+        run: |
+          set -euo pipefail
+          make lint
+
+      - name: Test
+        run: |
+          set -euo pipefail
+          make test
+
+  gitleaks:
+    name: Secret scan (gitleaks)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_ENABLE_COMMENTS: "false"

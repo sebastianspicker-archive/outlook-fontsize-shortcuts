@@ -1,0 +1,31 @@
+name: Bug report
+description: Report a problem with the Outlook text-size controller
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What did you expect to happen, and what happened instead?
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: Include Outlook variant (New/Legacy), language, and any config overrides.
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Hammerspoon Console output
+      description: Paste relevant logs (if any).
+      render: text
+    validations:
+      required: false
+
