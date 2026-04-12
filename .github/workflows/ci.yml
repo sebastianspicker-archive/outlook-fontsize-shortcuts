@@ -38,7 +38,7 @@ jobs:
           luaRocksVersion: "3.12.2"
 
       - name: Cache LuaRocks
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ./.luarocks
