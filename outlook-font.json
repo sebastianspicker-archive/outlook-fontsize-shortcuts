@@ -1,72 +1,37 @@
 {
-  // Mode selection:
-  // "auto"   = try New Outlook first, then Legacy Outlook
+  // Optional overrides for outlook-font. Copy to ~/.hammerspoon/outlook-font.json.
+  // Keys you leave out keep their built-in defaults (outlook_font/config.lua),
+  // including the localized Outlook labels and menu paths; see README "Configuration".
+
+  // "auto"   = try New Outlook (Settings…) first, then Legacy Outlook (Preferences…)
   // "new"    = force New Outlook only
   // "legacy" = force Legacy Outlook only
   "mode": "auto",
 
-  // List of application names to detect Outlook
-  // Hammerspoon will try each in order to find the running app
-  "appNames": [
-    "Outlook",
-    "Microsoft Outlook"
-  ],
-
-  // Menu path to open the "Settings" window in New Outlook
-  // This is the menu chain: Outlook → Settings…
-  "settingsMenu": [
-    "Outlook",
-    "Settings…"
-  ],
-
-  // Menu path to open the "Preferences" window in Legacy Outlook
-  // This is the menu chain: Outlook → Preferences…
-  "preferencesMenu": [
-    "Outlook",
-    "Preferences…"
-  ],
-
-  // Possible titles of the "Personal Settings" header tile
-  // Supports multiple languages: English, German, French, Spanish
-  "headerLabels": [
-    "Personal Settings",
-    "Persönliche Einstellungen",
-    "Paramètres personnels",
-    "Configuración personal"
-  ],
-
-  // Label texts for the "Text display size" section
-  // Supports multiple languages for matching the UI text
-  "labelTexts": [
-    "Text display size",
-    "Größe der Textanzeige",
-    "Taille d'affichage du texte",
-    "Tamaño de visualización de texto"
-  ],
-
-  // Timing configuration for UI automation
+  // Timing for UI automation (seconds)
   "delays": {
-    // Seconds to wait after bringing Outlook to front
+    // Wait after bringing Outlook to the front
     "activate": 0.1,
-    // Polling interval (seconds) when waiting for windows or labels
+    // Polling interval while waiting for windows or labels
     "waitInterval": 0.05,
-    // Maximum seconds to wait before giving up
+    // Give up waiting for a window or pane after this long
     "timeout": 3
   },
 
-  // Retry logic if the UI action fails
+  // Retries when opening the menu or interacting with Outlook's UI fails
   "retry": {
-    // How many times to retry the whole sequence
+    // Retries after the first attempt
     "attempts": 2,
-    // Seconds to pause between retries
+    // Pause between retries (seconds)
     "interval": 0.2
   },
 
-  // Overlay: seconds before auto-dismiss; set "showOverlay" to false to use notifications only
+  // On-screen overlay after a change; set "showOverlay" to false to disable it
   "overlayDuration": 1.2,
   "showOverlay": true,
 
-  // Hotkeys (mods: array of "ctrl", "alt", "cmd", "shift"; key: single character)
+  // Hotkeys (mods: any of "ctrl", "alt", "cmd", "shift"; key: single character).
+  // Set "toggle" to false to disable the toggle hotkey.
   "hotkeys": {
     "increase": { "mods": ["ctrl", "alt", "cmd"], "key": "g" },
     "decrease": { "mods": ["ctrl", "alt", "cmd"], "key": "k" },

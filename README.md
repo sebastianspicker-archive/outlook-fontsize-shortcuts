@@ -38,10 +38,12 @@ git clone https://github.com/<owner>/outlook-fontsize-shortcuts.git
 cd outlook-fontsize-shortcuts
 cp init.lua outlook-font.lua ~/.hammerspoon/
 cp -R outlook_font ~/.hammerspoon/
-cp outlook-font.json ~/.hammerspoon/outlook-font.json
+cp -n outlook-font.json ~/.hammerspoon/outlook-font.json   # optional overrides; -n keeps an existing file
 ```
 
 If you already have `~/.hammerspoon/init.lua`, merge this repo's `init.lua` changes instead of overwriting the file.
+
+When upgrading, copy `outlook-font.lua` and `outlook_font/` again and re-merge any `init.lua` changes. A leftover `outlook_font/util.lua` from older versions is unused and can be deleted.
 
 Reload Hammerspoon with `Ctrl+Alt+Cmd+R` or from its menubar icon.
 
@@ -57,25 +59,27 @@ You can also use the Hammerspoon menubar item for mouse-driven control.
 
 ## Configuration
 
-Edit `~/.hammerspoon/outlook-font.json` if you want to override defaults.
+`~/.hammerspoon/outlook-font.json` is optional. It accepts JSON with `//` and `/* */` comments. Keys you leave out keep their built-in defaults, which are defined in `outlook_font/config.lua`. Invalid values are reset to their defaults, and a notification lists them.
 
-```jsonc
-{
-  "mode": "auto",
-  "delays": {
-    "timeout": 3
-  },
-  "retry": {
-    "attempts": 2,
-    "interval": 0.2
-  },
-  "hotkeys": {
-    "increase": { "mods": ["ctrl", "alt", "cmd"], "key": "g" },
-    "decrease": { "mods": ["ctrl", "alt", "cmd"], "key": "k" },
-    "toggle": { "mods": ["ctrl", "alt", "cmd"], "key": "t" }
-  }
-}
-```
+| Key | Default | Purpose |
+|-----|---------|---------|
+| `mode` | `"auto"` | `"auto"`, `"new"` or `"legacy"` (see [docs/modes.md](docs/modes.md)) |
+| `delays.activate` / `waitInterval` / `timeout` | `0.1` / `0.05` / `3` | Seconds after activating Outlook / polling interval / wait limit for windows and panes |
+| `retry.attempts` / `interval` | `2` / `0.2` | Retries after the first attempt / pause between them |
+| `overlayDuration`, `showOverlay` | `1.2`, `true` | On-screen overlay after a change |
+| `hotkeys.increase` / `decrease` / `toggle` | `ctrl+alt+cmd` + `g` / `k` / `t` | `{ "mods": [...], "key": "x" }`; set `toggle` to `false` to disable it |
+| `appNames` | `["Outlook", "Microsoft Outlook"]` | Fallback app names if the bundle id lookup fails |
+| `settingsMenu`, `preferencesMenu` | `Outlook > Settings…`, `Outlook > Preferences…` | Menu paths for New and Legacy Outlook |
+| `headerLabels`, `generalLabels`, `labelTexts` | English, German, French, Spanish | Localized texts used to find the settings controls |
+| `overlayText.larger` / `smaller` | `"Larger"` / `"Smaller"` | Overlay text; also matched against New Outlook's size-button titles |
+| `closeWindowKeystroke` | `{ "mods": ["cmd"], "key": "w" }` | Keystroke that closes the settings window |
+
+Notes:
+
+- Arrays replace the defaults instead of extending them. To add a language, repeat the default entries as well.
+- If you change `overlayText`, New Outlook's size buttons may no longer match by title. In that case the buttons are picked by position: last for larger, first for smaller.
+
+The repo's [`outlook-font.json`](outlook-font.json) lists the commonly tuned keys with their default values.
 
 If you are moving from an older legacy-only setup, see [docs/migration-from-legacy.md](docs/migration-from-legacy.md).
 
@@ -87,20 +91,18 @@ If you are moving from an older legacy-only setup, see [docs/migration-from-lega
 | Timeout waiting for the Outlook window | Increase `delays.timeout` in `outlook-font.json`. |
 | Wrong Outlook path is selected | Set `"mode": "new"` or `"mode": "legacy"` explicitly. |
 | Legacy behavior used to rely on `right_arrow_count` | This repo no longer uses that setting; see the migration guide. |
-| Buttons or slider are not found | Outlook's UI probably changed. Inspect it with Accessibility Inspector and adjust the selectors. |
+| Buttons or slider are not found | Outlook's UI or language probably changed. Inspect it with Accessibility Inspector, then add the visible texts to `headerLabels`, `generalLabels` or `labelTexts`. |
 
 ## Development
 
+The code targets Lua 5.4, the version Hammerspoon embeds. You need a `luarocks` configured for Lua 5.4 and [StyLua](https://github.com/JohnnyMorganz/StyLua).
+
 ```bash
-make tools
-make check
+make tools   # installs luacheck, busted and dkjson (test-only) into ./.luarocks
+make check   # fmt-check + lint + test
 ```
 
-Individual commands:
-
-- `make fmt-check`
-- `make lint`
-- `make test`
+The specs run outside Hammerspoon against fake `hs.*` modules (`spec/support/fake_hs.lua`). Layout and conventions are described in [AGENTS.md](AGENTS.md).
 
 ## Security
 

@@ -119,13 +119,15 @@ local menuItems = {
 }
 
 --------------------------------------------------------------------------------
--- 6) Create the menubar icon (stored globally so it is not garbage-collected)
+-- 6) Create the menubar icon. It must live in a global: Hammerspoon removes a
+--    menubar item once its object is garbage-collected, and locals of this file
+--    go out of scope when it finishes loading.
 --------------------------------------------------------------------------------
-local menu = hs.menubar.new()
-if menu then
-    menu:setTitle("A")
-    menu:setTooltip("Outlook Font Size Shortcuts")
-    menu:setMenu(menuItems)
+outlookFontMenu = hs.menubar.new()
+if outlookFontMenu then
+    outlookFontMenu:setTitle("A")
+    outlookFontMenu:setTooltip("Outlook Font Size Shortcuts")
+    outlookFontMenu:setMenu(menuItems)
 else
     notify("Could not create menubar item. Check the Hammerspoon console for errors.")
 end

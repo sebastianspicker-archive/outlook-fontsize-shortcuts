@@ -1,6 +1,6 @@
-std = "lua51"
+std = "lua54"
 
--- Hammerspoon config globals
+-- Hammerspoon embeds Lua 5.4 and exposes the `hs` global
 globals = {
   "hs",
 }
@@ -13,7 +13,12 @@ exclude_files = {
   "lua_modules",
 }
 
+-- init.lua keeps its menubar item in a global so it is not garbage-collected
+files["init.lua"] = {
+  globals = { "outlookFontMenu" },
+}
+
 -- Busted test globals in spec/
 files["spec"] = {
-  std = "lua51+busted",
+  std = "lua54+busted",
 }

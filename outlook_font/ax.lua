@@ -58,6 +58,41 @@ function M.find_static_text(root, substring)
     return nil
 end
 
+local function contains_any(text, substrings)
+    for _, substring in ipairs(substrings) do
+        if type(substring) == "string" and string.find(text, substring, 1, true) then
+            return true
+        end
+    end
+    return false
+end
+
+-- Depth-first search for the first node that has `role` (nil matches no role) or is
+-- static text containing any of `substrings`. Reads each node once, whereas calling
+-- find_first_by_role and find_static_text per label walks the whole tree each time.
+function M.find_role_or_static_text(root, role, substrings)
+    if not root then
+        return nil
+    end
+    local node_role = get_attribute(root, "AXRole")
+    if role ~= nil and node_role == role then
+        return root
+    end
+    if node_role == "AXStaticText" then
+        local value = get_attribute(root, "AXValue") or get_attribute(root, "AXTitle") or ""
+        if contains_any(value, substrings or {}) then
+            return root
+        end
+    end
+    for _, child in ipairs(children_of(root)) do
+        local found = M.find_role_or_static_text(child, role, substrings)
+        if found then
+            return found
+        end
+    end
+    return nil
+end
+
 function M.find_ancestor_by_role(node, role)
     local current = node
     local depth = 0

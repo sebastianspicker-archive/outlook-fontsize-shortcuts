@@ -1,25 +1,26 @@
+# Dev tooling for a Hammerspoon (Lua 5.4) project. Tools live in a project-local
+# LuaRocks tree; override LUAROCKS to point at a luarocks configured for Lua 5.4.
 LUAROCKS_TREE ?= ./.luarocks
-LUAJIT_PREFIX := $(shell brew --prefix luajit 2>/dev/null)
-
-ifeq ($(LUAJIT_PREFIX),)
-LUAROCKS := luarocks --tree $(LUAROCKS_TREE)
-else
-LUAROCKS := luarocks --tree $(LUAROCKS_TREE) --lua-dir $(LUAJIT_PREFIX) --lua-version 5.1
-endif
+LUA_VERSION ?= 5.4
+LUAROCKS ?= luarocks
+ROCKS := $(LUAROCKS) --tree $(LUAROCKS_TREE) --lua-version $(LUA_VERSION)
 
 LUACHECK := $(LUAROCKS_TREE)/bin/luacheck
 BUSTED := $(LUAROCKS_TREE)/bin/busted
 
-.PHONY: tools lint fmt fmt-check test check clean ci
-
 TOOLS_LUACHECK_VERSION ?= 1.2.0-1
 TOOLS_BUSTED_VERSION ?= 2.3.0-1
+# Test-only JSON decoder backing the fake hs.json in spec/support/fake_hs.lua
+TOOLS_DKJSON_VERSION ?= 2.11-1
+
+.PHONY: tools lint fmt fmt-check test check clean
 
 tools:
-	@command -v luarocks >/dev/null || (echo "Missing 'luarocks' (try: brew install luarocks)" && exit 1)
+	@command -v $(LUAROCKS) >/dev/null || (echo "Missing '$(LUAROCKS)' (try: brew install luarocks)" && exit 1)
 	@mkdir -p $(LUAROCKS_TREE)
-	@$(LUAROCKS) install luacheck $(TOOLS_LUACHECK_VERSION)
-	@$(LUAROCKS) install busted $(TOOLS_BUSTED_VERSION)
+	@$(ROCKS) install luacheck $(TOOLS_LUACHECK_VERSION)
+	@$(ROCKS) install busted $(TOOLS_BUSTED_VERSION)
+	@$(ROCKS) install dkjson $(TOOLS_DKJSON_VERSION)
 
 lint: $(LUACHECK)
 	@$(LUACHECK) .
@@ -37,8 +38,6 @@ test: $(BUSTED)
 
 check: fmt-check lint test
 
-ci: fmt-check lint test
-
 clean:
 	@echo "Removing $(LUAROCKS_TREE)"
-	@$(LUAROCKS) purge --old-versions || true
+	@rm -rf $(LUAROCKS_TREE)
