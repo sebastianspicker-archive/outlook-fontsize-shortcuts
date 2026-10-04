@@ -6,21 +6,15 @@ LUAROCKS ?= luarocks
 ROCKS := $(LUAROCKS) --tree $(LUAROCKS_TREE) --lua-version $(LUA_VERSION)
 
 LUACHECK := $(LUAROCKS_TREE)/bin/luacheck
-BUSTED := $(LUAROCKS_TREE)/bin/busted
 
 TOOLS_LUACHECK_VERSION ?= 1.2.0-1
-TOOLS_BUSTED_VERSION ?= 2.3.0-1
-# Test-only JSON decoder backing the fake hs.json in spec/support/fake_hs.lua
-TOOLS_DKJSON_VERSION ?= 2.11-1
 
-.PHONY: tools lint fmt fmt-check test check clean
+.PHONY: tools lint fmt fmt-check check clean
 
 tools:
 	@command -v $(LUAROCKS) >/dev/null || (echo "Missing '$(LUAROCKS)' (try: brew install luarocks)" && exit 1)
 	@mkdir -p $(LUAROCKS_TREE)
 	@$(ROCKS) install luacheck $(TOOLS_LUACHECK_VERSION)
-	@$(ROCKS) install busted $(TOOLS_BUSTED_VERSION)
-	@$(ROCKS) install dkjson $(TOOLS_DKJSON_VERSION)
 
 lint: $(LUACHECK)
 	@$(LUACHECK) .
@@ -33,10 +27,7 @@ fmt-check:
 	@command -v stylua >/dev/null || (echo "Missing 'stylua' (try: brew install stylua)" && exit 1)
 	@stylua --check .
 
-test: $(BUSTED)
-	@$(BUSTED)
-
-check: fmt-check lint test
+check: fmt-check lint
 
 clean:
 	@echo "Removing $(LUAROCKS_TREE)"

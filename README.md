@@ -98,11 +98,9 @@ If you are moving from an older legacy-only setup, see [docs/migration-from-lega
 The code targets Lua 5.4, the version Hammerspoon embeds. You need a `luarocks` configured for Lua 5.4 and [StyLua](https://github.com/JohnnyMorganz/StyLua).
 
 ```bash
-make tools   # installs luacheck, busted and dkjson (test-only) into ./.luarocks
-make check   # fmt-check + lint + test
+make tools   # installs luacheck into ./.luarocks
+make check   # fmt-check + lint
 ```
-
-The specs run outside Hammerspoon against fake `hs.*` modules (`spec/support/fake_hs.lua`). Layout and conventions are described in [AGENTS.md](AGENTS.md).
 
 ## Security
 

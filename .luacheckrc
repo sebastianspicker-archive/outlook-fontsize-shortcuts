@@ -17,8 +17,3 @@ exclude_files = {
 files["init.lua"] = {
   globals = { "outlookFontMenu" },
 }
-
--- Busted test globals in spec/
-files["spec"] = {
-  std = "lua54+busted",
-}

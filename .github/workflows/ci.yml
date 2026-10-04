@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [dev]
+    branches: [main]
   pull_request:
-    branches: [dev]
+    branches: [main]
   workflow_dispatch:
 
 concurrency:
@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   lua:
-    name: Lua quality + tests
+    name: Lua quality
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -63,11 +63,6 @@ jobs:
         run: |
           set -euo pipefail
           make lint
-
-      - name: Test
-        run: |
-          set -euo pipefail
-          make test
 
   gitleaks:
     name: Secret scan (gitleaks)

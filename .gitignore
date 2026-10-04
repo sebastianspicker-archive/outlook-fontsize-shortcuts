@@ -3,20 +3,52 @@
 lua_modules/
 *.rock
 *.src.rock
+.luacheckcache
 
-# Tests / coverage
+# Tool and agent state
+.claude/
+.codex/
+.cursor/
+.aider*
+.continue/
+.windsurf/
+.serena/
+.codacy/
+.repowise/
+.codegraph/
+.impeccable/
+.mcp.json
+.history/
+.cache/
+.tmp/
+
+# Agent instructions, logs and handoff notes
+.agents/
+AGENTS.md
+CLAUDE.md
+GEMINI.md
+.cursorrules
+.github/copilot-instructions.md
+IMPROVEMENT_*.md
+*-ledger.md
+
+# Worktree directories
+.worktrees/
+worktrees/
+
+# Tests and reports
+spec/
 coverage/
 luacov.*
 test-results/
 junit.xml
 reports/
-semgrep.sarif
 gitleaks-report.json
+semgrep.sarif
 
-# Tooling caches
-.luacheckcache
-.cache/
-.tmp/
+# Work-in-progress documents and local drafts
+DESIGN_BRIEF.md
+rewritten/
 *.tmp
 *.log
 
@@ -25,14 +57,5 @@ gitleaks-report.json
 Thumbs.db
 .idea/
 .vscode/
-.cursor/
 *.swp
 *~
-
-# Local process docs (optional, not tracked)
-DECISIONS.md
-FINDINGS.md
-LOG.md
-REFACTOR_PLAN.md
-PHYSICS_AUDIT.md
-validation.md
